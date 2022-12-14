@@ -1,0 +1,91 @@
+Question 1:
+1. Simulate Cyclic Redundancy Check (CRC) error detection algorithm for noisy channel.
+
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+string XOR(string extract_to_divide, string divisor)
+{
+  int n = extract_to_divide.length();
+  int a = divisor.length();
+  string newo;
+  if (n == a)
+  {
+    for (int i = 0; i < n; i++)
+    {
+      if (extract_to_divide.at(i) == divisor.at(i))
+      {
+        newo += "0";
+      }
+      else
+      {
+        newo += "1";
+      }
+    }
+  return newo;
+  }
+}
+string division(string newdatword, string key)
+{
+  string New1 = newdatword.substr(0, key.length());
+  string New2;
+  int a = (key.length());
+  for (int i = a; i <= newdatword.length(); i++)
+  {
+    if (New1.at(0) == '1')
+    { 
+      New1 = XOR(New1, key);
+    }
+    else
+    {
+      New1 = XOR(New1, "0000");
+    }
+    if (i < newdatword.length())
+    {
+      New2 = New1.substr(1, New1.length()) + newdatword.at(i);
+    }
+    else
+    {
+      break;
+    }
+    New1 = New2;
+  }
+  New2 = New1.substr(1, New1.length());
+  // cout<<New2;
+  return New2;
+}
+ 
+string encoder(string dataword, string key)
+{
+  int key1 = key.length();
+  string newdataword = dataword + string(key1 - 1, '0');
+  string zero = string(dataword.length(), '0');
+  cout << newdataword << endl;
+  string Codeword = division(newdataword, key);
+  zero += Codeword;
+  Codeword = XOR(newdataword, zero);
+  return Codeword;
+}
+string decoder(string codeword, string key)
+{
+ 
+  string remainder = division(codeword, key);
+  string zero = string(key.length() - 1, '0');
+  if (remainder == zero)
+  {
+    cout << "error free" << endl;
+  }
+  else
+  {
+    cout << "error " << endl;
+  }
+}
+int main()
+{
+  string dataword = "100100";
+  string key = "1101";
+  string Codeword = encoder(dataword, key);
+  cout<<Codeword<<endl;
+  decoder(Codeword, key);
+}

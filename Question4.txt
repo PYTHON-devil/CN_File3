@@ -1,0 +1,82 @@
+4. Simulate and implement go back n sliding window protocol.
+
+#include <cstdlib>
+#include <iostream>
+#include <time.h>
+#include <windows.h>
+using namespace std;
+ 
+int reciveralgo(int array)
+{
+    srand(time(0));
+    int s = array;
+    int n = (rand() % (3 - 0 + 1)) + 0;
+    if (n == 2)
+    {
+        Sleep(500);
+        return 500;
+    }
+    else if (n == 1)
+    {
+        cout << "Frame is corrupted" << endl;
+        return -1;
+    }
+    else
+    {
+        cout << "Frame Recieved :" << s << endl;
+        return s;
+    }
+}
+void sendalgo(int frame[], int framesize1, int outstanding_frame, int size_of)
+{
+    int framesize = framesize1 - size_of;
+    int subframes[4];
+    int counter = 0;
+    int k1 = 0;
+    int iterator_for_k = size_of;
+    int ack;
+ 
+label:
+    cout << "Sending frames :";
+    for (int j = 0, k = k1; j < size_of, k < iterator_for_k; j++, k++)
+    {
+        subframes[j] = frame[k];
+        cout << frame[k] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < 4; i++)
+    {
+        ack = reciveralgo(subframes[i]);
+        if (ack == subframes[0])
+        {
+            if (k1 <= framesize)
+            {
+                k1++;
+            }
+            if (iterator_for_k < framesize1)
+            {
+                iterator_for_k++;
+                goto label;
+            }
+        }
+        else if (ack == 500)
+        {
+            cout << "times out resending frames" << endl;
+            goto label;
+        }
+        else if (ack == -1)
+        {
+            cout << "Resending corrupted frame " << endl;
+            goto label;
+        }
+    }
+}
+int main()
+{
+    int frame[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    int size_of_window = 4;
+    int frame_size = 16;
+    int outstanding_frmae = 0;
+    int nextframe = 4;
+    cout << "frame to be sent :" << endl;
+}

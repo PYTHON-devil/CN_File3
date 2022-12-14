@@ -1,0 +1,67 @@
+3. Simulate and implement stop and wait protocol for noisy channel.
+
+#include <iostream>
+#include <windows.h>
+#include <ctime>
+using namespace std;
+int receiveralgo(int frame)
+{   srand(time(0));
+    int n = (rand() % (2- 0 + 1)) + 0;
+    int corrupted=0;
+    if(n==1){
+      corrupted=1;
+    }
+    if (corrupted==1)
+    {   
+        cout<<"received frame is corrupted"<<endl;
+        cout<<n<<endl;
+        return 0;
+    }
+    else
+    {   cout<<"received frame :"<<frame<<endl;
+        return 1;
+    }
+}
+void senderalgo(int frame[], int a)
+{
+    int s = 0;
+    while (s < 10)
+    {
+        int copy = frame[s];
+        cout<<"sending frames :"<<frame[s]<<endl;
+    label:
+        int a = receiveralgo(frame[s]);
+        for (int i = 1; i <= 6; i++)
+        {
+            if (a == 1)
+            {  
+                break;
+            }
+            else
+            {
+                if (i < 6)
+                {
+                    Sleep(200);
+                }
+                else
+                {
+                    goto label;
+                }
+            }
+        }
+        copy = 0;
+        s++;
+    }
+}
+int main()
+{
+    int frames[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int serialnum = 0;
+    cout<<"frames to be sent: ";
+    for (int i = 0; i < 10; i++)
+    {
+        cout<<frames[i]<<" ";
+    }
+    cout<<endl;
+    senderalgo(frames, 10);
+}

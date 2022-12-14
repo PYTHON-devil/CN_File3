@@ -1,0 +1,34 @@
+6. Simulate Classful Addressing by taking the IP address (Dotted-Decimal notation) as input and print the corresponding class
+#include <iostream>
+using namespace std;
+ 
+int main(){
+    string s1;
+    cout <<"please enter the ip address"<<endl;
+    cin>>s1;
+    string s2=s1.substr(0,3);
+    int s=stoi(s2);
+    cout<<s<<endl;
+    if (s<=127)
+    {
+       cout<<"class A"<<endl;
+    }
+    else if(s<=191)
+    {
+       cout<<"class B"<<endl;
+    }
+    else if(s<=223)
+    {
+       cout<<"class C"<<endl;
+    }
+    else if(s<=239)
+    {
+       cout<<"class D"<<endl;
+    }
+    else if(s<=255)
+    {
+       cout<<"class E"<<endl;
+    }
+    
+}
+ 

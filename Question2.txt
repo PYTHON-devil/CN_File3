@@ -1,0 +1,89 @@
+2. Simulate Hamming code for a given input message.
+#include <iostream>
+#include <math.h>
+#include <LinkedList.h>
+using namespace std;
+ 
+void parity(string newnum, int count)
+{
+    int s = newnum.length();
+    linkedlist l1;
+    int h=1;
+    for (int i = 0; i < count; i++)
+    {
+        int count1 = 0;
+        for (int c = 1; c < s + 1; c++)
+        {
+            int k = c >> i;
+            if (k & 1)
+            {
+                count1++;
+                l1.insertatthebegin(c);
+            }
+        }
+        int even=0;
+        for (int d = 0; d < count1-1; d++)
+        {   int n=l1.deleteatbegin();
+            if (newnum[n-1]=='1')
+            {
+               even++;
+            }
+        }
+        if (even%2==0)
+        {
+            newnum.replace(h-1,1,"0");
+            h*=2;
+        }
+        else{
+            newnum.replace(h-1,1,"1");
+            h*=2;
+        }
+    }
+    cout<<"Hamming code :"<<newnum<<endl;
+}
+string position(int m, int r, string c)
+{
+ 
+    string s1 = "2";
+    for (int i = 1; i < m + r; i++)
+    {
+        s1 += "2";
+    }
+    int h = 1;
+    int h1 = 0;
+    for (int i = 1; i <= r + m; i++)
+    {
+        if (i == h)
+        {
+            h *= 2;
+            s1 = s1.replace(i - 1, 1, "7");
+        }
+        else
+        {
+            char a = c.at(h1);
+            string n1(1, a);
+            s1 = s1.replace(i - 1, 1, n1);
+            h1++;
+        }
+    }
+    return s1;
+}
+int main()
+{
+    string s1;
+    int i = 0;
+    cout << "Please input a code for generation of hamming code" << endl;
+    cin >> s1;
+    int s = s1.length();
+label:
+    int two = pow(2, i);
+    int h = s + i + 1;
+    if (two < h)
+    {
+        i++;
+        goto label;
+    }
+    string newnum = position(s, i, s1);
+    parity(newnum, i);
+    return 0;
+}
